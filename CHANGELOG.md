@@ -118,7 +118,7 @@ The following libraries were updated:
 # [2.3.0 - Corporate Theme](https://github.com/akveo/ngx-admin/compare/v2.2.0...v2.3.0) (2018-06-22)
 
 
-### Bug Fixes
+### Bug Fixe 1
 
 * **buttons:** Uncheck checkbox after click ([#1721](https://github.com/akveo/ngx-admin/issues/1721)) ([fbe12a9](https://github.com/akveo/ngx-admin/commit/fbe12a9)), closes [#1697](https://github.com/akveo/ngx-admin/issues/1697)
 * **readme:** update docs link ([#1743](https://github.com/akveo/ngx-admin/issues/1743)) ([a6d5d49](https://github.com/akveo/ngx-admin/commit/a6d5d49))
