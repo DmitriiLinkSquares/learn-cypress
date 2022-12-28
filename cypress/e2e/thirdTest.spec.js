@@ -119,7 +119,7 @@ describe('Our first suite', () => {
       });
     });
   });
-  it.only('Invoke command', () => {
+  it('Invoke command', () => {
     // in order to open our app in cy we need to execute command
     cy.visit('/');
     cy.contains('Forms').click();
@@ -321,7 +321,8 @@ describe('Our first suite', () => {
       .then((input) => {
         cy.wrap(input).click();
         let dateAssert = selectDayFromCurrent(40);
-        cy.wrap(input).invoke('prop', 'value').should('contain', dateAssert);
+        // cy.wrap(input).invoke('prop', 'value').should('contain', dateAssert);
+        cy.wrap(input).should('have.value', dateAssert); // do exactly the same as the line above
       });
   });
   it('ToolTip', () => {
