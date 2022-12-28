@@ -282,7 +282,7 @@ describe('Our first suite', () => {
       });
     });
   });
-  it.only('Web datepickers', () => {
+  it('Web datepickers', () => {
     function selectDayFromCurrent(day) {
       let date = new Date(); // this object is getting current system date and time
       date.setDate(date.getDate() + day);
@@ -320,5 +320,12 @@ describe('Our first suite', () => {
         let dateAssert = selectDayFromCurrent(40);
         cy.wrap(input).invoke('prop', 'value').should('contain', dateAssert);
       });
+  });
+  it.only('ToolTip', () => {
+    cy.visit('/');
+    cy.contains('Modal & Overlays').click();
+    cy.contains('Tooltip').click();
+    cy.contains('nb-card', 'Colored Tooltips').contains('Default').click();
+    cy.get('nb-tooltip').should('contain', 'This is a tooltip');
   });
 });
