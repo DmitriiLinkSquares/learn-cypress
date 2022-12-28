@@ -321,11 +321,39 @@ describe('Our first suite', () => {
         cy.wrap(input).invoke('prop', 'value').should('contain', dateAssert);
       });
   });
-  it.only('ToolTip', () => {
+  it('ToolTip', () => {
     cy.visit('/');
     cy.contains('Modal & Overlays').click();
     cy.contains('Tooltip').click();
     cy.contains('nb-card', 'Colored Tooltips').contains('Default').click();
     cy.get('nb-tooltip').should('contain', 'This is a tooltip');
+  });
+  it('Dialog window', () => {
+    cy.visit('/');
+    cy.contains('Tables & Data').click();
+    cy.contains('Smart Table').click();
+
+    // method 1 (don't use because the code will not fail even if don't get any confirm message)
+    cy.get('tbody tr').first().find('.nb-trash').click();
+    cy.on('window:confirm', (confirm) => {
+      expect(confirm).to.equal('Are you sure you want to delete?');
+    });
+
+    // method 2
+    const stub = cy.stub();
+    cy.on('window:confirm', stub);
+    cy.get('tbody tr')
+      .first()
+      .find('.nb-trash')
+      .click()
+      .then(() => {
+        expect(stub.getCall(0)).to.be.calledWith(
+          'Are you sure you want to delete?'
+        );
+      });
+
+    // method 3 (if you want to select Cancel instead of Confirm)
+    cy.get('tbody tr').first().find('.nb-trash').click();
+    cy.on('window:confirm', () => false);
   });
 });
