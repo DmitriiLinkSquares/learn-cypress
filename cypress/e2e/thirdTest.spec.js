@@ -119,26 +119,29 @@ describe('Our first suite', () => {
       });
     });
   });
-  it('Invoke command', () => {
+  it.only('Invoke command', () => {
     // in order to open our app in cy we need to execute command
     cy.visit('/');
     cy.contains('Forms').click();
     cy.contains('Form Layouts').click();
 
     // 1. to get text value
-    cy.get('[for="exampleInputEmail1"]').should('contain', 'Email address');
+    cy.get('[for="exampleInputEmail1"]')
+      .should('contain', 'Email address')
+      .should('have.class', 'label')
+      .and('have.text', 'Email address');
 
     // 2. to get text value using then()
     cy.get('[for="exampleInputEmail1"]').then((inputLabel) => {
       expect(inputLabel.text()).to.equal('Email address');
+      expect(inputLabel).to.have.class('label');
+      expect(inputLabel).to.have.text('Email address');
     });
 
     // 3. to get text value using invoke command
     cy.get('[for="exampleInputEmail1"]')
       .invoke('text')
-      .then((text) => {
-        expect(text).to.equal('Email address');
-      });
+      .then((text) => expect(text).to.equal('Email address'));
 
     // to verify that checkbox is actually checked
     cy.contains('nb-card', 'Basic form')
