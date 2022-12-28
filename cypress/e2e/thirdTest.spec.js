@@ -39,7 +39,6 @@ describe('Our first suite', () => {
     // The most recommended way by Cypress is to craete your own attribute
     cy.get('[data-cy="imputEmail1"]');
   });
-
   it('The second test', () => {
     // in order to open our app in cy we need to execute command
     cy.visit('/');
@@ -67,7 +66,6 @@ describe('Our first suite', () => {
 
     cy.contains('nb-card', 'Horizontal form').find('[type="email"]');
   });
-
   it('Then and wrap methods', () => {
     // in order to open our app in cy we need to execute command
     cy.visit('/');
@@ -121,7 +119,6 @@ describe('Our first suite', () => {
       });
     });
   });
-
   it('Invoke command', () => {
     // in order to open our app in cy we need to execute command
     cy.visit('/');
@@ -238,38 +235,38 @@ describe('Our first suite', () => {
       });
     });
   });
-  it.only('Web tables', () => {
+  it('Web tables', () => {
     cy.visit('/');
     cy.contains('Tables & Data').click();
     cy.contains('Smart Table').click();
 
-    // // 1 example
-    // cy.get('tbody')
-    //   .contains('tr', 'Larry')
-    //   .then((tableRow) => {
-    //     cy.wrap(tableRow).find('.nb-edit').click();
-    //     cy.wrap(tableRow).find('[placeholder="Age"]').clear().type('25');
-    //     cy.wrap(tableRow).find('.nb-checkmark').click();
-    //     cy.wrap(tableRow).find('td').eq(6).should('contain', '25');
-    //   });
+    // 1 example
+    cy.get('tbody')
+      .contains('tr', 'Larry')
+      .then((tableRow) => {
+        cy.wrap(tableRow).find('.nb-edit').click();
+        cy.wrap(tableRow).find('[placeholder="Age"]').clear().type('25');
+        cy.wrap(tableRow).find('.nb-checkmark').click();
+        cy.wrap(tableRow).find('td').eq(6).should('contain', '25');
+      });
 
-    // // 2 example
-    // cy.get('thead').find('.nb-plus').click();
-    // cy.get('thead')
-    //   .find('tr')
-    //   .eq(2)
-    //   .then((tableRow) => {
-    //     cy.wrap(tableRow).find('[placeholder="First Name"]').type('Artem');
-    //     cy.wrap(tableRow).find('[placeholder="Last Name"]').type('Bondar');
-    //     cy.wrap(tableRow).find('.nb-checkmark').click();
-    //     cy.get('tbody tr')
-    //       .first('tr')
-    //       .find('td')
-    //       .then((tableColumns) => {
-    //         cy.wrap(tableColumns).eq(2).should('contain', 'Artem');
-    //         cy.wrap(tableColumns).eq(3).should('contain', 'Bondar');
-    //       });
-    //   });
+    // 2 example
+    cy.get('thead').find('.nb-plus').click();
+    cy.get('thead')
+      .find('tr')
+      .eq(2)
+      .then((tableRow) => {
+        cy.wrap(tableRow).find('[placeholder="First Name"]').type('Artem');
+        cy.wrap(tableRow).find('[placeholder="Last Name"]').type('Bondar');
+        cy.wrap(tableRow).find('.nb-checkmark').click();
+        cy.get('tbody tr')
+          .first('tr')
+          .find('td')
+          .then((tableColumns) => {
+            cy.wrap(tableColumns).eq(2).should('contain', 'Artem');
+            cy.wrap(tableColumns).eq(3).should('contain', 'Bondar');
+          });
+      });
 
     // 3 example
     const age = [20, 30, 40, 200];
@@ -284,5 +281,44 @@ describe('Our first suite', () => {
         }
       });
     });
+  });
+  it.only('Web datepickers', () => {
+    function selectDayFromCurrent(day) {
+      let date = new Date(); // this object is getting current system date and time
+      date.setDate(date.getDate() + day);
+      let futureDay = date.getDate();
+      let futureMonth = date.toLocaleString('en-US', { month: 'short' });
+      let futureYear = date.getFullYear();
+      let dateAssert =
+        futureMonth + ' ' + futureDay + ', ' + date.getFullYear();
+
+      cy.get('nb-calendar-navigation')
+        .invoke('attr', 'ng-reflect-date')
+        .then((dateAttr) => {
+          if (
+            !dateAttr.includes(futureMonth) ||
+            !dateAttr.includes(futureYear)
+          ) {
+            cy.get('[data-name="chevron-right"]').click();
+            selectDayFromCurrent(day);
+          } else {
+            cy.get('nb-calendar-day-picker .ng-star-inserted') // it was because of locator
+              .contains(futureDay)
+              .click(); // returns cy.click() can only be called on a single element. Your subject contained 3 elements. Pass { multiple: true } if you want to serially click each element.
+          }
+        });
+      return dateAssert;
+    }
+    cy.visit('/');
+    cy.contains('Forms').click();
+    cy.contains('Datepicker').click();
+
+    cy.contains('nb-card', 'Common Datepicker')
+      .find('input')
+      .then((input) => {
+        cy.wrap(input).click();
+        let dateAssert = selectDayFromCurrent(40);
+        cy.wrap(input).invoke('prop', 'value').should('contain', dateAssert);
+      });
   });
 });
