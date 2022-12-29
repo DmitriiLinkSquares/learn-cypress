@@ -1,7 +1,7 @@
-import { onDatepickerPage } from '../support/page_objects/datepickerPage';
-import { onFormLayoutsPage } from '../support/page_objects/formLayoutsPage';
-import { navigateTo } from '../support/page_objects/navigationPage';
-import { onSmartTablePage } from '../support/page_objects/smartTablePage';
+import { onDatepickerPage } from '../support/helpers/datepickerHelpers';
+import { onFormLayoutsPage } from '../support/helpers/formLayoutsHelpers';
+import { navigateTo } from '../support/helpers/navigationHelpers';
+import { onSmartTablePage } from '../support/helpers/smartTableHelpers';
 
 describe('Test with Page Objects', () => {
   beforeEach('open application', () => {
@@ -15,7 +15,7 @@ describe('Test with Page Objects', () => {
     navigateTo.tooltipPage();
   });
 
-  it('Should submit Inline and Basic form and select tomorrow date in the calendar', () => {
+  it.only('Should submit Inline and Basic form and select tomorrow date in the calendar', () => {
     navigateTo.formLayoutsPage();
     onFormLayoutsPage.submitInLineFormWithNameAndEmail(
       'Artem',
@@ -30,7 +30,7 @@ describe('Test with Page Objects', () => {
     onDatepickerPage.selectDatepickerWithRangeFromToday(7, 14);
   });
 
-  it.only('Add a New Record and Update Age by First Name Then Delete a Record', () => {
+  it('Add a New Record and Update Age by First Name Then Delete a Record', () => {
     navigateTo.tablesPage();
     onSmartTablePage.addNewRecordWithFirstAndLastName('Artem', 'Bondar');
     onSmartTablePage.updateAgeByFirstName('Artem', 33);
