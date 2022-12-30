@@ -7,7 +7,7 @@ describe('Test with Page Objects', () => {
   beforeEach('open application', () => {
     cy.openHomePage();
   });
-  it('Verify navigation across the pages', () => {
+  it.only('Verify navigation across the pages', () => {
     navigateTo.formLayoutsPage();
     navigateTo.datepickerPage();
     navigateTo.toastrPage();
@@ -15,7 +15,7 @@ describe('Test with Page Objects', () => {
     navigateTo.tooltipPage();
   });
 
-  it.only('Should submit Inline and Basic form and select tomorrow date in the calendar', () => {
+  it('Should submit Inline and Basic form and select tomorrow date in the calendar', () => {
     navigateTo.formLayoutsPage();
     onFormLayoutsPage.submitInLineFormWithNameAndEmail(
       'Artem',
