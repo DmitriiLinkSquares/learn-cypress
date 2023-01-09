@@ -7,7 +7,7 @@ describe('Test with Page Objects', () => {
   beforeEach('open application', () => {
     cy.openHomePage();
   });
-  it.only('Verify navigation across the pages', () => {
+  it('Verify navigation across the pages', () => {
     navigateTo.formLayoutsPage();
     navigateTo.datepickerPage();
     navigateTo.toastrPage();
@@ -30,7 +30,7 @@ describe('Test with Page Objects', () => {
     onDatepickerPage.selectDatepickerWithRangeFromToday(7, 14);
   });
 
-  it('Add a New Record and Update Age by First Name Then Delete a Record', () => {
+  it.only('Add a New Record and Update Age by First Name Then Delete a Record', () => {
     navigateTo.tablesPage();
     onSmartTablePage.addNewRecordWithFirstAndLastName('Artem', 'Bondar');
     onSmartTablePage.updateAgeByFirstName('Artem', 33);
