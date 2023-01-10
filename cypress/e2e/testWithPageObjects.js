@@ -15,7 +15,7 @@ describe('Test with Page Objects', () => {
     navigateTo.tooltipPage();
   });
 
-  it.only('Should submit Inline and Basic form and select tomorrow date in the calendar', () => {
+  it('Should submit Inline and Basic form and select tomorrow date in the calendar', () => {
     navigateTo.formLayoutsPage();
     onFormLayoutsPage.submitInLineFormWithNameAndEmail(
       'Artem',
@@ -30,7 +30,7 @@ describe('Test with Page Objects', () => {
     onDatepickerPage.selectDatepickerWithRangeFromToday(7, 14);
   });
 
-  it('Add a New Record and Update Age by First Name Then Delete a Record', () => {
+  it.only('Add a New Record and Update Age by First Name Then Delete a Record', () => {
     navigateTo.tablesPage();
     onSmartTablePage.addNewRecordWithFirstAndLastName('Artem', 'Bondar');
     onSmartTablePage.updateAgeByFirstName('Artem', 33);

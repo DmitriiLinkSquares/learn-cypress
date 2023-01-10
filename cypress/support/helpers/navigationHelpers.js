@@ -1,36 +1,37 @@
-function selectGroupMenuItem(groupName) {
-  cy.contains('a', groupName).then((menu) => {
-    cy.wrap(menu)
-      .find('.expand-state g g')
-      .invoke('attr', 'data-name')
+import { htmlAttr } from '../generalConstants';
+import { navigationPage1 } from '../pages/navigationPage';
+
+export class NavigationHelpers {
+  selectGroupMenuItem(groupName) {
+    navigationPage1
+      .menu(groupName)
+      .invoke('attr', htmlAttr.DATA_NAME)
       .then((attr) => {
         if (attr.includes('left')) {
-          cy.wrap(menu).click();
+          navigationPage1.groupMenuItem(groupName).click();
         }
       });
-  });
-}
+  }
 
-export class NavigationPage {
   formLayoutsPage() {
-    selectGroupMenuItem('Form');
-    cy.contains('Form Layouts').click();
+    this.selectGroupMenuItem('Form');
+    navigationPage1.menuItemFormLayouts.click();
   }
   datepickerPage() {
-    selectGroupMenuItem('Form');
-    cy.contains('Datepicker').click();
+    this.selectGroupMenuItem('Form');
+    navigationPage1.menuItemDatepicker.click();
   }
   toastrPage() {
-    selectGroupMenuItem('Modal & Overlays');
-    cy.contains('Toastr').click();
+    this.selectGroupMenuItem('Modal & Overlays');
+    navigationPage1.menuItemToastr.click();
   }
   tablesPage() {
-    selectGroupMenuItem('Tables & Data');
-    cy.contains('Smart Table').click();
+    this.selectGroupMenuItem('Tables & Data');
+    navigationPage1.menuItemTables.click();
   }
   tooltipPage() {
-    selectGroupMenuItem('Modal & Overlays');
-    cy.contains('Tooltip').click();
+    this.selectGroupMenuItem('Modal & Overlays');
+    navigationPage1.menuItemTooltip.click();
   }
 }
-export const navigateTo = new NavigationPage();
+export const navigateTo = new NavigationHelpers();
