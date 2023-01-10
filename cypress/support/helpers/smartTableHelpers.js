@@ -3,26 +3,32 @@ import { smartTablePage } from '../pages/smartTablePage';
 export class SmartTableHelpers {
   updateAgeByFirstName(userName, age) {
     smartTablePage.tableRowAtName(userName);
-    smartTablePage.editButton;
-    smartTablePage.tableRowAtAge(age);
-    smartTablePage.checkMarkButton;
-    smartTablePage.ageRowAfterChange(age);
+    smartTablePage.editButton.click();
+    smartTablePage.tableRowAtAge.clear().type(age);
+    smartTablePage.checkMarkButton.click();
+    smartTablePage.ageRowAfterChange.should('contain', age);
   }
 
   addNewRecordWithFirstAndLastName(firstName, lastName) {
-    smartTablePage.plusButton;
-    smartTablePage.editRow;
-    smartTablePage.firstNamePlace(firstName);
-    smartTablePage.lastNamePlace(lastName);
-    smartTablePage.checkMarkButton;
-    smartTablePage.firstNameRowAfterChange(firstName);
-    smartTablePage.lastNameRowAfterChange(lastName);
+    smartTablePage.plusButton.click();
+    smartTablePage.firstNamePlace.type(firstName);
+    smartTablePage.lastNamePlace.type(lastName);
+    smartTablePage.checkMarkButton.click();
+    smartTablePage.firstNameRowAfterChange.should('contain', firstName);
+    smartTablePage.lastNameRowAfterChange.should('contain', lastName);
   }
 
   deleteRowByIndex(index) {
-    smartTablePage.stubWindow;
-    smartTablePage.trashButton(index);
-    smartTablePage.confirmWindow;
+    const stub = cy.stub();
+    cy.on('window:confirm', stub);
+    smartTablePage
+      .trashButton(index)
+      .click()
+      .then(() => {
+        expect(stub.getCall(0)).to.be.calledWith(
+          'Are you sure you want to delete?'
+        );
+      });
   }
 }
 
